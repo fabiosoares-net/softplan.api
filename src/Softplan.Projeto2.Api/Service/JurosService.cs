@@ -59,7 +59,7 @@ namespace Softplan.Projeto2.Api.Service
             if (valor.Length >= 5)
             {
                 valor = valor.Substring(0, 5);
-                valor = valor.Insert(valor.Length - 2, ",");
+                valor = valor.Contains(",") ? valor : valor.Insert(valor.Length - 2, ",");
             }
 
             return valor;
