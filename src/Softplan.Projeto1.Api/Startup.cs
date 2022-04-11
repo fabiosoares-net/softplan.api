@@ -9,25 +9,27 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Softplan.Projeto1.Api.Configuration;
 
 namespace Softplan.Projeto1.Api
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddCorsService();
+
+            services.AddSwaggerConfiguration();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -38,6 +40,10 @@ namespace Softplan.Projeto1.Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCorsSetup();
+
+            app.UseSwaggerSetup();
 
             app.UseEndpoints(endpoints =>
             {
